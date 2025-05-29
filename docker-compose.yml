@@ -1,0 +1,16 @@
+version: '3.8' # Docker Composeのバージョンを指定
+services:
+  db:
+    image: postgres:15 # PostgreSQLのイメージを指定 (バージョン15を推奨)
+    container_name: product_lifecycle_db # コンテナ名を指定 (任意)
+    restart: always # Docker起動時に常にコンテナを再起動
+    environment:
+      POSTGRES_USER: myuser                # データベースのユーザー名 (任意の値に変更可)
+      POSTGRES_PASSWORD: mypassword          # データベースのパスワード (任意の値に変更可)
+      POSTGRES_DB: product_lifecycle_app   # 作成するデータベース名 (任意の値に変更可)
+    ports:
+      - "5432:5432" # ローカルマシンの5432番ポートをコンテナの5432番ポートにマッピング
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # データを永続化するためのボリューム
+volumes:
+  postgres_data: # 名前付きボリュームの定義
