@@ -42,3 +42,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: '製品の登録に失敗しました。' }, { status: 500 });
   }
 }
+
+
+export async function GET(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user || !session.user.id) {
+    return NextResponse.json({ error: '認証されていません。' }, { status: 401 });
+  }
+
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        userId: session.user.id, // ログインしているユーザーの製品のみを取得
+      },
+      orderBy: {
+        createdAt: 'desc', // 作成日の降順で並び替え (任意)
+      },
+    });
+
+    return NextResponse.json(products, { status: 200 });
+  } catch (error) {
+    console.error('製品取得エラー:', error);
+    if (error instanceof Error) {
+        return NextResponse.json({ error: '製品の取得に失敗しました。', details: error.message }, { status: 500 });
+    }
+    return NextResponse.json({ error: '製品の取得に失敗しました。' }, { status: 500 });
+  }
+}

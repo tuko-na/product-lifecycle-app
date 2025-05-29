@@ -63,14 +63,44 @@ model VerificationToken {
 
 // 製品モデル
 model Product {
-  id          String   @id @default(cuid())
-  name        String   // 製品名
-  modelNumber String?  // 型番
+  id           String    @id @default(cuid())
+  name         String // 製品名
+  modelNumber  String? // 型番
   purchaseDate DateTime? // 購入日
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   // ユーザーとのリレーション (製品は一人のユーザーに属する)
   userId String
   user   User   @relation(fields: [userId], references: [id])
+
+  usageLogs UsageLog[]
+  incidentReports IncidentReport[]
+}
+
+model UsageLog {
+  id        String   @id @default(cuid())
+  date      DateTime // 使用日
+  notes     String? // 使用に関するメモ (例: 「強風モードで5分」など)
+  duration  Int? // 使用時間（分など、任意）
+  // type      String?  // 使用タイプ (例: "通常使用", "メンテナンス", "清掃"など、任意)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productId String // どの製品に対する使用履歴か
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Productへのリレーション
+}
+
+// 新しい IncidentReport モデル
+model IncidentReport {
+  id          String   @id @default(cuid())
+  date        DateTime // インシデント発生日
+  description String   // インシデントの内容やレビュー詳細
+  severity    String?  // 重要度 (例: "軽微な問題", "主要な不具合", "故障", "高評価点", "改善要望" など、任意)
+  // photoUrl    String?  // 写真のURL (将来的に実装する場合)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  productId   String   // どの製品に対するインシデントか
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade) // Productへのリレーション
 }

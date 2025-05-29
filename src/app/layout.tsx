@@ -39,6 +39,7 @@ export default function RootLayout({
               </Link>
               <AuthButton /> {/* AuthButton を配置 */}
             </nav>
+            <Link href="/products" style={{ marginRight: '10px' }}>製品一覧</Link>
           </header>
           <main style={{ padding: '1rem' }}>
             {children}

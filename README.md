@@ -40,3 +40,8 @@ Ov23li6QnzinVr6mivtv
 
 cilent scre
 5cb66138d7cf114d64b42eee39c1e3d9710e85f7
+
+
+カリデータ
+item_id
+cmb8q2nlz0003u5myqkj8x8ti
