@@ -63,19 +63,29 @@ model VerificationToken {
 
 // 製品モデル
 model Product {
-  id           String    @id @default(cuid())
-  name         String // 製品名
-  modelNumber  String? // 型番
-  purchaseDate DateTime? // 購入日
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id              String    @id @default(cuid())
+  name            String
+  modelNumber     String?
+  purchaseDate    DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
-  // ユーザーとのリレーション (製品は一人のユーザーに属する)
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  userId          String
+  user            User      @relation(fields: [userId], references: [id])
 
-  usageLogs UsageLog[]
+  usageLogs       UsageLog[]
   incidentReports IncidentReport[]
+
+  category              String?
+  manufacturer          String?
+  warrantyMonths        Int?
+  expectedLifespanYears Int?
+  notes                 String?
+  purchasePrice         Decimal?
+  imageUrl              String?
+  manualUrl             String?
+
+  expectedUsageHours    Int?      // 期待する総使用時間 (時間単位)
 }
 
 model UsageLog {
