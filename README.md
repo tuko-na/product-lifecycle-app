@@ -1,47 +1,47 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+ローカル開発環境のセットアップ
 
-First, run the development server:
+前提条件
+Git
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Node.js (v18.17.0 以上推奨)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Docker Desktop
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+起動手順
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1.リポジトリのクローン
+    git clone https://github.com/tuko-na/product-lifecycle-app.git
+    cd product-lifecycle-app
 
-## Learn More
+2.
+    npm i
 
-To learn more about Next.js, take a look at the following resources:
+3.環境変数ファイル（.env）の作成
+プロジェクトのルートに .env ファイルを作成し、下記の「環境変数について」を参考に必要な値を設定してください。
+# Prismaが使用するデータベース接続URL
+# docker-compose.ymlで設定した値に合わせます
+    DATABASE_URL="postgresql://myuser:mypassword@localhost:5432/product_lifecycle_app"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# NextAuth.jsが使用するシークレットキー
+# ターミナルで `openssl rand -base64 32` を実行して生成した値を設定
+    NEXTAUTH_SECRET=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# NextAuth.jsが使用するベースURL
+    NEXTAUTH_URL=http://localhost:3000
 
-## Deploy on Vercel
+# GitHub OAuth アプリのクレデンシャル
+# 自身でGitHub上でOAuth Appを作成し、取得した値を設定
+    GITHUB_ID=
+    GITHUB_SECRET=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.Dockerコンテナの起動
+PostgreSQLデータベースをDockerコンテナとして起動します。
+    docker-compose up -d
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5.データベースマイグレーションの実行
+アプリケーションが必要とするテーブルをデータベース内に作成します。
+    npx prisma migrate dev
 
-clirent id
-Ov23li6QnzinVr6mivtv
-
-cilent scre
-5cb66138d7cf114d64b42eee39c1e3d9710e85f7
-
-
-カリデータ
-item_id
-cmbevvr8d0001u5in5d6hl4vf
+    nom run dev
